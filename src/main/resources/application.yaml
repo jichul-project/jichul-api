@@ -1,0 +1,95 @@
+server:
+  port: 8180
+  error:
+    whitelabel:
+      enabled: false
+  compression:
+    enabled: true
+  http2:
+    enabled: true
+  servlet:
+    encoding:
+      force-response: true
+
+spring:
+  application:
+    name: jichul
+  main:
+    banner-mode: off
+  messages:
+    encoding: UTF-8
+  output:
+    ansi:
+      enabled: always
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: ENC(7qdEqDP+7aOGm0I7LSHfHl34zyOb+6IpCzAXnDDd4mdCrda3JeC3s9JIzwzBDyGXsxtBB4899C3f6isK2J+4eFrd91k2/6P8H0FQdzy6Gk4UNtn0jCzB4zkBrOPYNrx0UAQZnm+rGAU52/B2TWyf7x6dYJmkSnYp+W2n32nrXwE=)
+    username: ENC(YnZCkF5V0jhC2q/EU7owh0v7FQDwTuyXH/soXqEW8bSMSrROs20qknC7pw0pa6Dk)
+    password: ENC(F75tBCdNKjBrUEsWzeH2o8nBkSQeq8sXw+DS8uMA4AtthTC4QCVxPfYevU77FNjx)
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        format_sql: false
+        jdbc:
+          batch_size: 500
+          order_inserts: true
+          order_updates: true
+          time_zone: Asia/Seoul
+
+  security:
+    user:
+      name: ENC(GxB+aZtczusyhXKh70Z+q0HfsRiKKRlqeqgD62G2pxt/+Mkxs3nXylq3wo8bO0ZV)
+      password: ENC(0Doi0fOfSKCuiKrouSWylcexLxoVae7KwF9avt+E2AgpBgri4THLUxEc+oOEsbXB)
+
+  data:
+    redis:
+      username: ENC(A2YE+IHSkoyvxg+Z4BubXgHu6/SbGHhbPUn/nCVXpTFtwOfGLbOGuMSlFR73S+Zv)
+      password: ENC(K7unQyqywnKnPqPK58xLTA6dwEn+cV687cGB+UBl1ZMBH2tYthOuthfzHQruU4bM)
+      lettuce:
+        pool:
+          min-idle: 3
+          max-idle: 10
+          max-active: 10
+      sentinel:
+        master: ENC(fWxKo8hWntDpBgPzxaUayRUi0i7sZdTVWKlJhBV5irif93UKOrvhQZCSZ2U0QMRs)
+        nodes:
+          - ENC(extdsIE2yRKJZPMwCu9EACA7BLad9ACy2VCQS/bOGAdu8RILe6dmMFrSbj+dl+o+U3JLn2nJ0Yx2psiU/5hNuA==)
+          - ENC(sEdNhGdgS5Dt0/Ub2bpK571yJlrnEG5kshysndOAlzP1XTSxjBSkPCca3ij+lKyNN2v0vNz6tg5xAZFL2l1+6g==)
+          - ENC(Dw2NU3OXHEFK2ZrHKeWlDeMriOY1EywTH18fkKEgIs0WAew4yyV/+nP9Jx0tPy7jjHI4FGt6ofdIwPY0sExCUQ==)
+        username: ENC(XcOAFlUVQXiCZ71FTmuzOAs5RB00NUfC/3iDY64rURF5ovPIm23q8SvcXV02ka1Z)
+        password: ENC(ySHdiWNNOoJkqlxw6L4oX2BBqt7LYu3i5HJHZOMI23tKbGiGBntEoZItGVlsAUfa)
+      timeout: 3000ms
+      connect-timeout: 3000ms
+
+jwt:
+  # 30분 (ms)
+  access-token-expiry: 1800000
+  # 7일 (ms)
+  refresh-token-expiry: 604800000
+
+logging:
+  level:
+    work.seoeungi.jichul: INFO
+    org.hibernate.SQL: INFO
+
+jasypt:
+  encryptor:
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    key-obtention-iterations: 10000
+    pool-size: 1
