@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -28,10 +29,10 @@ public class JwtProvider {
     private String secretString;
 
     @Value("${jwt.access-token-expiry}")
-    private long accessTokenExpiry;
+    private Duration accessTokenExpiry;
 
     @Value("${jwt.refresh-token-expiry}")
-    private long refreshTokenExpiry;
+    private Duration refreshTokenExpiry;
 
     private SecretKey secretKey;
 
@@ -53,7 +54,7 @@ public class JwtProvider {
             .claim("email", email)
             .claim("type", "access")
             .issuedAt(now)
-            .expiration(new Date(now.getTime() + accessTokenExpiry))
+            .expiration(new Date(now.getTime() + accessTokenExpiry.toMillis()))
             .signWith(secretKey)
             .compact();
     }
@@ -66,13 +67,13 @@ public class JwtProvider {
             .claim("type", "refresh")
             .claim("jti", tokenId)
             .issuedAt(now)
-            .expiration(new Date(now.getTime() + refreshTokenExpiry))
+            .expiration(new Date(now.getTime() + refreshTokenExpiry.toMillis()))
             .signWith(secretKey)
             .compact();
 
         // Redis 에 저장 (key: refresh:{userId}:{jti})
         String key = REFRESH_TOKEN_PREFIX + userId + ":" + tokenId;
-        redisTemplate.opsForValue().set(key, token, refreshTokenExpiry, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(key, token, refreshTokenExpiry.toMillis(), TimeUnit.MILLISECONDS);
 
         return token;
     }

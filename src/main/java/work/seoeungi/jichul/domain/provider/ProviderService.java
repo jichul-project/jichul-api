@@ -3,6 +3,8 @@ package work.seoeungi.jichul.domain.provider;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import work.seoeungi.jichul.common.exception.AppException;
@@ -22,6 +24,7 @@ public class ProviderService {
     private final UserService userService;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "provider:all", key = "#userId")
     public List<ProviderResponse> findAll(UUID userId) {
         return providerRepository.findAllByUserIdOrderByNameAsc(userId)
             .stream()
@@ -30,6 +33,7 @@ public class ProviderService {
     }
 
     @Transactional
+    @CacheEvict(value = "provider:all", key = "#userId")
     public ProviderResponse create(UUID userId, ProviderRequest request) {
         User user = userService.findById(userId);
         Provider provider = Provider.builder()
@@ -40,6 +44,7 @@ public class ProviderService {
     }
 
     @Transactional
+    @CacheEvict(value = "provider:all", key = "#userId")
     public ProviderResponse update(UUID userId, UUID providerId, ProviderRequest request) {
         Provider provider = findOwnedProvider(userId, providerId);
         provider.updateName(request.name());
@@ -47,6 +52,7 @@ public class ProviderService {
     }
 
     @Transactional
+    @CacheEvict(value = "provider:all", key = "#userId")
     public void delete(UUID userId, UUID providerId) {
         Provider provider = findOwnedProvider(userId, providerId);
 
