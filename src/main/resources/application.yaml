@@ -72,7 +72,7 @@ spring:
       connect-timeout: 3000ms
 
 jwt:
-  access-token-expiry: 24h
+  access-token-expiry: 1d
   refresh-token-expiry: 7d
 
 logging:
