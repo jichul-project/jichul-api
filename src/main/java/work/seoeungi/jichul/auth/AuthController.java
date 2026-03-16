@@ -31,10 +31,10 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponse>> register(@RequestBody @Valid RegisterRequest request) {
-        return ResponseEntity.ok(ApiResponse.ok(userService.register(request)));
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<ApiResponse<UserResponse>> register(@RequestBody @Valid RegisterRequest request) {
+//        return ResponseEntity.ok(ApiResponse.ok(userService.register(request)));
+//    }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest request) {
