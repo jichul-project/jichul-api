@@ -26,9 +26,9 @@ spring:
       enabled: true
 
   datasource:
-    url: ENC(YxmqRj0y24PFNcUMigjGukIvKTtNC+fPCgZerNjZ8CEZhFr9ruvnjo18xUMtJL7YLF4d5cBD3MV1yFQV4VOHLFVq/MwfJvxR0crFnkdy1xXKibzHeKmpp4HWoPG+gcQyRKmcGOYxbZ6av3LlbTujEILRr5NCba5eAOjK/mAA6TI=)
-    username: ENC(nokIUDMGgNG7XbF7gGBfARAevpJrk21InbtIb66AX64LbOE9OibhozLIBW8YRnx6)
-    password: ENC(YRcY/ZWmkKsEoPASUs5pNRwonwdcOSFuK2mq7pH7J54zqntp0OWhAvdl5n0vheZL)
+    url: ENC(5AfWhKysGWFne2qzgqR6NSA8h/N3fREbqUgVo3GdnA22BblMDOIKdjKLsi0KMheT+WkdFh+/R+DbS0NoNdKyJmz6gJA1V1q5Et9GUTU4hc1Zckj1TWu+HO2GtBIti0GNxd3mre65qDJi+fGV8MR3zB4rc/Ec50FwmfYmQ6wLk8Y=)
+    username: ENC(4IVg+iJdao0fpdGk3eRSH+F8EM3ifBhM4JzE1Nf2FmG70Dl/lYCy7Qucxp1TMgJV)
+    password: ENC(iJ8K4ZgMhXnzeUATTBjmhE0VeIG19EYE1/H+o4PyFoO3Q4ZFs0sjIxvo/XrC0L4A)
     driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 5
@@ -54,15 +54,15 @@ spring:
 
   security:
     user:
-      name: ENC(r/iF47mt9Z4raglex1oyDGkTb/vmjZacfD2cbY3QjpFQCipsWMXfxZf80TIshySe)
-      password: ENC(4qF4f04i//O2WMLmTsPW+KPITH0opTi1zBHkb/mCam/Jwz7c5FWsjb7TOOcLnU2E)
+      name: ENC(DcW2I9RjxvxDhjQR/tR5CeaWLMoJkAW0ppjLZkWY3tepB7yql6afEce1pozmZTqR)
+      password: ENC(0yZbFDSQ3kdgknWij2R4cDpnJeuvYE3g7jgVwd/TbiU31lo3cme7Io6yxfbAZnaS)
 
   data:
     redis:
-      username: ENC(FqhdpDEp4ktIV1OPSPAln69+QjKxTmerXE68NjjEw2QWBoiUdbkITpxon7DI3M+C)
-      password: ENC(/A79Fm906R5h2VLMIrvQPtB3owkJbuieGYy23G97StYbHaL+NI/UWcmK4VFSZ90Pg4sbSa3sXfm5QZh9HVjlNLBruUZ4pa3zvp5V57Xv+qM=)
-      host: ENC(QB4GkM7z+KcQVvPydBqIqPubPPLNR7k4uE7mnjQg00Q87eqbRsY6Lk8ZxH3DH7qEntIZlvlhoIbrUmWoZeb46dgBpEEF5DFgdE+Sh6NzmV6yILsGyThyqRBkKIMBcBhk)
-      port: ENC(oreF1vULcym5uz66LUIm8bnF5jnkPlNjg6YPWciKhIUnqroBUfdO4BIQTNIzEJM2)
+      username: ENC(BE1b6g2qm10znczQxdxyIq/VtHI6qB/+augli/ucg1o4mVeC1woqv2NZkhbtXUYh)
+      password: ENC(2aU9SrJae+tR7zxRHudn18S0a8X7ptpcCRevWCtXjMSXDHOK1LggZVlBE3QbyKnLbJBTk9HL5snc9UekVUAkwdmGGOZPmRf9TCLIa8Cq/lI=)
+      host: ENC(A8QkuozbWGOQ1VNZhFN5uBD2264x7zATMQ9+mWnmsKIbVsgSwMhU4ud6BFGNzQOh/dxHKkkaGbbduVYd+M/SRiSWO60V9CSO8Y/Kixojp0vITfeQByNRuTBgbCKaUPRN)
+      port: ENC(S7E1wHykkHz7tDFcV2OLYDwzpJimHor9h3o5oLfcenxLy0fJf0J29vqDO6qzlL4k)
       lettuce:
         pool:
           min-idle: 4
@@ -72,7 +72,7 @@ spring:
       connect-timeout: 3000ms
 
 jwt:
-  access-token-expiry: 1d
+  access-token-expiry: 24h
   refresh-token-expiry: 7d
 
 logging:
