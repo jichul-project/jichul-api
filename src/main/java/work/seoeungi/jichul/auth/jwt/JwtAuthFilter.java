@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -48,12 +49,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         // 서명 검증이 완료된 토큰이므로 추가 DB 조회는 불필요
                         String userId = claims.getSubject();
 
-                        var principal = User.withUsername(userId)
+                        UserDetails principal = User.withUsername(userId)
                             .password("")
                             .authorities(Collections.emptyList())
                             .build();
 
-                        var authentication = new UsernamePasswordAuthenticationToken(
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             principal, null, principal.getAuthorities()
                         );
                         SecurityContextHolder.getContext().setAuthentication(authentication);

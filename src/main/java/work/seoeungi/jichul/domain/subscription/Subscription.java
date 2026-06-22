@@ -55,6 +55,10 @@ public class Subscription {
     @Column(nullable = false, length = 10)
     private SubscriptionType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private SubscriptionPriceType priceType;
+
     @Column(length = 500)
     private String description;
 
@@ -64,11 +68,11 @@ public class Subscription {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    public void update(String name, BigDecimal amount, SubscriptionType type,
-        String description, Provider provider) {
+    public void update(String name, BigDecimal amount, SubscriptionType type, SubscriptionPriceType priceType, String description, Provider provider) {
         this.name = name;
         this.amount = amount;
         this.type = type;
+        this.priceType = priceType;
         this.description = description;
         this.provider = provider;
     }

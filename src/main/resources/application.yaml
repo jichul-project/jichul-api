@@ -26,9 +26,9 @@ spring:
       enabled: true
 
   datasource:
-    url: ENC(5AfWhKysGWFne2qzgqR6NSA8h/N3fREbqUgVo3GdnA22BblMDOIKdjKLsi0KMheT+WkdFh+/R+DbS0NoNdKyJmz6gJA1V1q5Et9GUTU4hc1Zckj1TWu+HO2GtBIti0GNxd3mre65qDJi+fGV8MR3zB4rc/Ec50FwmfYmQ6wLk8Y=)
-    username: ENC(4IVg+iJdao0fpdGk3eRSH+F8EM3ifBhM4JzE1Nf2FmG70Dl/lYCy7Qucxp1TMgJV)
-    password: ENC(iJ8K4ZgMhXnzeUATTBjmhE0VeIG19EYE1/H+o4PyFoO3Q4ZFs0sjIxvo/XrC0L4A)
+    url: ENC(nTVsSAH4JspTtsTD2z4Uyo1ymUIpHLQuB4EKuNyTbpyYeXv9dAHRXrk5fgN2bs2db9jOiNZuEcQA9aVznqfVRQYAs3dGGEJf+p8H6VGJMu/j05X5bW4LeofuC43YMan8L6NPin7lP2zSkCkCH6sd5QuL+Vqv8YXsA0GeWq99Ugo=)
+    username: ENC(NedXiG6VzsP4Bacs6zWmMQ8rHlh5mh5ZGH+4W1khE9kA6jz5M5JmnKdgSX5YGOrD)
+    password: ENC(dxczUoj6BCnUDQP8kXrTlGQyOIXsAFQWzY0jYklWkBEMI9L+4laWK6YXY9UwidiB)
     driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 5
@@ -54,15 +54,15 @@ spring:
 
   security:
     user:
-      name: ENC(DcW2I9RjxvxDhjQR/tR5CeaWLMoJkAW0ppjLZkWY3tepB7yql6afEce1pozmZTqR)
-      password: ENC(0yZbFDSQ3kdgknWij2R4cDpnJeuvYE3g7jgVwd/TbiU31lo3cme7Io6yxfbAZnaS)
+      name: ENC(1X6Y1esr40licG7FX047uqP2vAINJ/coCCeVRxli2/Ii6T3AniO4kDf1uNLlAm+z)
+      password: ENC(6EgSUogcQT2hJiRpybp34V3mubbWRDVVTeuxqjj9N4wq2JgQUfP23LcR3lLtLYdu)
 
   data:
     redis:
-      username: ENC(BE1b6g2qm10znczQxdxyIq/VtHI6qB/+augli/ucg1o4mVeC1woqv2NZkhbtXUYh)
-      password: ENC(2aU9SrJae+tR7zxRHudn18S0a8X7ptpcCRevWCtXjMSXDHOK1LggZVlBE3QbyKnLbJBTk9HL5snc9UekVUAkwdmGGOZPmRf9TCLIa8Cq/lI=)
-      host: ENC(A8QkuozbWGOQ1VNZhFN5uBD2264x7zATMQ9+mWnmsKIbVsgSwMhU4ud6BFGNzQOh/dxHKkkaGbbduVYd+M/SRiSWO60V9CSO8Y/Kixojp0vITfeQByNRuTBgbCKaUPRN)
-      port: ENC(S7E1wHykkHz7tDFcV2OLYDwzpJimHor9h3o5oLfcenxLy0fJf0J29vqDO6qzlL4k)
+      username: ENC(TP7dEJrZ48+S+oHm5OTXHVQ3liCkURl4digdQqv0Yn0VfjwqGE83mYh5e8O7CG3A)
+      password: ENC(9BFhYvFUoNi8/KIntQyfdN8fnTsMFYPLhwbGhvUjo4lPf1r6G+eWHxyw6R9CwEIBtxMkKaJvFws9k5Pn58RtJMpqkT/LTIvKnt/CFMmj6WM=)
+      host: ENC(63DwX3OM1v+fps8O2C+LY0JsT4FH2ODPJ2S/hj+mAvL1accFgS+JnmZBNXWkuHorAM3y+JxYPdj3QmFewgW7EQpdrBvNLhM1hAQTenui6F80WX6GTXR6L5LmQc5XFwBo)
+      port: ENC(KAWjfRHgt+e/Fu3X4RwxaqL7Asro+oQo6Cxt0lrGIrEPy0rr26rJQoVnUc4FOj9S)
       lettuce:
         pool:
           min-idle: 4
@@ -106,3 +106,8 @@ management:
     metrics:
       export:
         enabled: true
+
+third-party:
+  open-exchange-rates:
+    url: https://openexchangerates.org/api/latest.json
+    key: ENC(WiDco/I/P+vG4HhCPOlD6zR3SjX5Cf8p7UWMo+8TU1xbAwIwfHTszH1CDEej9G/2nPIWK4fezMXuoBFkN9xzhbq8m+h7zjH2FX+ab6sIKbE=)

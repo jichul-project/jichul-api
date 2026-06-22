@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
@@ -143,7 +144,7 @@ public class JwtProvider {
      */
     public void deleteAllRefreshTokens(UUID userId) {
         String pattern = REFRESH_TOKEN_PREFIX + userId + ":*";
-        var keys = redisTemplate.keys(pattern);
+        Set<String> keys = redisTemplate.keys(pattern);
         if (!keys.isEmpty()) {
             redisTemplate.delete(keys);
         }

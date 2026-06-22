@@ -2,6 +2,7 @@ package work.seoeungi.jichul.domain.subscription;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import work.seoeungi.jichul.common.exception.AppException;
 import work.seoeungi.jichul.common.exception.ErrorCode;
+import work.seoeungi.jichul.domain.exchangeRate.ExchangeRateService;
 import work.seoeungi.jichul.domain.provider.Provider;
 import work.seoeungi.jichul.domain.provider.ProviderService;
 import work.seoeungi.jichul.domain.subscription.dto.SubscriptionRequest;
 import work.seoeungi.jichul.domain.subscription.dto.SubscriptionResponse;
 import work.seoeungi.jichul.domain.subscription.dto.SummaryResponse;
+import work.seoeungi.jichul.domain.user.User;
 import work.seoeungi.jichul.domain.user.UserService;
 
 @Service
@@ -23,13 +26,33 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final ProviderService providerService;
     private final UserService userService;
+    private final ExchangeRateService exchangeRateService;
 
     @Transactional(readOnly = true)
     public List<SubscriptionResponse> findAll(UUID userId) {
-        return subscriptionRepository.findAllByUserIdWithProvider(userId)
-            .stream()
-            .map(SubscriptionResponse::from)
-            .toList();
+        List<SubscriptionResponse> list = new ArrayList<>();
+
+        List<Subscription> subscriptionList = subscriptionRepository.findAllByUserIdWithProvider(userId);
+
+        BigDecimal exchangeRate = null;
+        if (!subscriptionList.isEmpty()) {
+            exchangeRate = exchangeRateService.getSimple();
+        }
+
+        for (Subscription subscription : subscriptionList) {
+            SubscriptionResponse from = SubscriptionResponse.from(subscription);
+
+            if (SubscriptionPriceType.DOLLAR.equals(from.getPriceType())) {
+                BigDecimal amount = from.getAmount();
+
+                from.setAmount(amount.multiply(exchangeRate));
+                from.setBeforeAmount(amount);
+            }
+
+            list.add(from);
+        }
+
+        return list;
     }
 
     @Transactional(readOnly = true)
@@ -38,27 +61,59 @@ public class SubscriptionService {
 
         long monthlyCount = list.stream().filter(s -> s.getType() == SubscriptionType.MONTHLY).count();
         long yearlyCount = list.stream().filter(s -> s.getType() == SubscriptionType.YEARLY).count();
+        BigDecimal exchangeRate = exchangeRateService.getSimple();
 
         // 월결제 합산 + 년결제 월 환산
-        BigDecimal monthlyTotal = list.stream()
-            .map(s -> s.getType() == SubscriptionType.MONTHLY
-                ? s.getAmount()
-                : s.getAmount().divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_UP))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal monthlyTotal = BigDecimal.ZERO;
+        for (Subscription subscription : list) {
+            BigDecimal bigDecimal;
+            if (subscription.getType() == SubscriptionType.MONTHLY) {
+                bigDecimal = subscription.getAmount();
+
+                if (SubscriptionPriceType.DOLLAR.equals(subscription.getPriceType())) {
+                    bigDecimal = bigDecimal.multiply(exchangeRate);
+                }
+            } else {
+                bigDecimal = subscription.getAmount();
+
+                if (SubscriptionPriceType.DOLLAR.equals(subscription.getPriceType())) {
+                    bigDecimal = bigDecimal.multiply(exchangeRate);
+                }
+
+                bigDecimal = bigDecimal.divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_UP);
+            }
+
+            monthlyTotal = monthlyTotal.add(bigDecimal);
+        }
 
         // 년결제 합산 + 월결제 × 12
-        BigDecimal yearlyTotal = list.stream()
-            .map(s -> s.getType() == SubscriptionType.YEARLY
-                ? s.getAmount()
-                : s.getAmount().multiply(BigDecimal.valueOf(12)))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal yearlyTotal = BigDecimal.ZERO;
+        for (Subscription subscription : list) {
+            BigDecimal bigDecimal;
+            if (subscription.getType() == SubscriptionType.YEARLY) {
+                bigDecimal = subscription.getAmount();
+
+                if (SubscriptionPriceType.DOLLAR.equals(subscription.getPriceType())) {
+                    bigDecimal = bigDecimal.multiply(exchangeRate);
+                }
+            } else {
+                bigDecimal = subscription.getAmount();
+
+                if (SubscriptionPriceType.DOLLAR.equals(subscription.getPriceType())) {
+                    bigDecimal = bigDecimal.multiply(exchangeRate);
+                }
+
+                bigDecimal = bigDecimal.multiply(BigDecimal.valueOf(12));
+            }
+            yearlyTotal = yearlyTotal.add(bigDecimal);
+        }
 
         return new SummaryResponse(list.size(), monthlyCount, yearlyCount, monthlyTotal, yearlyTotal);
     }
 
     @Transactional
     public SubscriptionResponse create(UUID userId, SubscriptionRequest request) {
-        var user = userService.findById(userId);
+        User user = userService.findById(userId);
         Provider provider = providerService.findOwnedProvider(userId, request.providerId());
 
         Subscription subscription = Subscription.builder()
@@ -67,6 +122,7 @@ public class SubscriptionService {
             .name(request.name())
             .amount(request.amount())
             .type(request.type())
+            .priceType(request.priceType())
             .description(request.description())
             .build();
 
@@ -82,6 +138,7 @@ public class SubscriptionService {
             request.name(),
             request.amount(),
             request.type(),
+            request.priceType(),
             request.description(),
             provider
         );

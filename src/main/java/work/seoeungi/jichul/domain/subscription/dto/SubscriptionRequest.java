@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.UUID;
+import work.seoeungi.jichul.domain.subscription.SubscriptionPriceType;
 import work.seoeungi.jichul.domain.subscription.SubscriptionType;
 
 public record SubscriptionRequest(
@@ -19,6 +20,9 @@ public record SubscriptionRequest(
 
     @NotNull(message = "결제 타입을 선택해주세요.")
     SubscriptionType type,
+
+    @NotNull(message = "결제 통화를 선택해주세요.")
+    SubscriptionPriceType priceType,
 
     @NotNull(message = "제공사를 선택해주세요.")
     UUID providerId,
