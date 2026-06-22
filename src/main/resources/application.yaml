@@ -76,10 +76,7 @@ jwt:
   refresh-token-expiry: 7d
 
 logging:
-  level:
-    root: INFO
-    work.seoeungi.jichul: INFO
-    org.hibernate.SQL: INFO
+  config: classpath:/logback/spring-logback.xml
 
 jasypt:
   encryptor:
