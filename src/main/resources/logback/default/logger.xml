@@ -18,4 +18,7 @@
 
   <logger name="io.lettuce.core.RedisChannelHandler" level="ERROR"/>
   <logger name="org.springframework.data.redis.listener.RedisMessageListenerContainer" level="ERROR"/>
+
+  <logger name="jdbc.sqltiming" level="INFO"/>
+  <logger name="jdbc.resultsettable" level="OFF"/>
 </included>

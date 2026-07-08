@@ -37,8 +37,8 @@ dependencies {
     // prometheus
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
-    // loki
-    implementation("com.github.loki4j:loki-logback-appender:2.0.3")
+    // encoder
+    implementation("net.logstash.logback:logstash-logback-encoder:8.0")
 
     // JWT
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
@@ -59,4 +59,14 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jib {
+    from {
+        image = "amazoncorretto:21"
+    }
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        ports = ["8080"]
+    }
 }

@@ -1,5 +1,5 @@
 server:
-  port: 8180
+  port: 8080
   error:
     whitelabel:
       enabled: false
@@ -15,15 +15,15 @@ spring:
   application:
     name: jichul
   main:
-    banner-mode: off
-  messages:
-    encoding: UTF-8
-  output:
-    ansi:
-      enabled: always
+    banner-mode: OFF
+
   threads:
     virtual:
       enabled: true
+
+  output:
+    ansi:
+      enabled: always
 
   datasource:
     url: ENC(nTVsSAH4JspTtsTD2z4Uyo1ymUIpHLQuB4EKuNyTbpyYeXv9dAHRXrk5fgN2bs2db9jOiNZuEcQA9aVznqfVRQYAs3dGGEJf+p8H6VGJMu/j05X5bW4LeofuC43YMan8L6NPin7lP2zSkCkCH6sd5QuL+Vqv8YXsA0GeWq99Ugo=)
@@ -37,15 +37,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: false
     open-in-view: false
     generate-ddl: false
     properties:
       hibernate:
+        format_sql: false
+        show_sql: false
         naming:
           implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        format_sql: false
         jdbc:
           batch_size: 50
           order_inserts: true
@@ -63,13 +63,13 @@ spring:
       password: ENC(9BFhYvFUoNi8/KIntQyfdN8fnTsMFYPLhwbGhvUjo4lPf1r6G+eWHxyw6R9CwEIBtxMkKaJvFws9k5Pn58RtJMpqkT/LTIvKnt/CFMmj6WM=)
       host: ENC(63DwX3OM1v+fps8O2C+LY0JsT4FH2ODPJ2S/hj+mAvL1accFgS+JnmZBNXWkuHorAM3y+JxYPdj3QmFewgW7EQpdrBvNLhM1hAQTenui6F80WX6GTXR6L5LmQc5XFwBo)
       port: ENC(KAWjfRHgt+e/Fu3X4RwxaqL7Asro+oQo6Cxt0lrGIrEPy0rr26rJQoVnUc4FOj9S)
+      timeout: 5000
       lettuce:
         pool:
-          min-idle: 4
+          min-idle: 3
           max-idle: 10
           max-active: 10
-      timeout: 3000ms
-      connect-timeout: 3000ms
+        shutdown-timeout: 2000
 
 jwt:
   access-token-expiry: 24h
@@ -77,12 +77,6 @@ jwt:
 
 logging:
   config: classpath:/logback/spring-logback.xml
-
-jasypt:
-  encryptor:
-    algorithm: PBEWITHHMACSHA512ANDAES_256
-    key-obtention-iterations: 10000
-    pool-size: 1
 
 management:
   endpoints:
@@ -93,6 +87,8 @@ management:
     shutdown:
       access: none
     health:
+      probes:
+        enabled: true
       show-details: always
   metrics:
     enable:
@@ -103,6 +99,25 @@ management:
     metrics:
       export:
         enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+    db:
+      enabled: false
+    redis:
+      enabled: false
+    mail:
+      enabled: false
+    diskSpace:
+      enabled: false
+
+jasypt:
+  encryptor:
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    key-obtention-iterations: 10000
+    pool-size: 1
 
 third-party:
   open-exchange-rates:

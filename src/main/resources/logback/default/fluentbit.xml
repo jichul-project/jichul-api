@@ -1,0 +1,6 @@
+<configuration>
+  <appender name="FLUENTBIT" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>fluent-bit.elastic.svc.cluster.local:5170</destination>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+  </appender>
+</configuration>
