@@ -2,6 +2,7 @@ package work.seoeungi.jichul.auth;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import work.seoeungi.jichul.common.exception.ErrorCode;
 import work.seoeungi.jichul.domain.user.User;
 import work.seoeungi.jichul.domain.user.UserService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -35,6 +37,8 @@ public class AuthService {
         String accessToken = jwtProvider.generateAccessToken(user.getId(), user.getEmail());
         String refreshToken = jwtProvider.generateRefreshToken(user.getId());
 
+        log.info("login: {}", user.getId());
+
         return new LoginResponse(
             user.getId(),
             user.getEmail(),
@@ -51,6 +55,8 @@ public class AuthService {
         String accessToken = jwtProvider.generateAccessToken(user.getId(), user.getEmail());
         String refreshToken = jwtProvider.generateRefreshToken(user.getId());
 
+        log.info("refresh: {}", userId);
+
         return new LoginResponse(
             user.getId(),
             user.getEmail(),
@@ -63,5 +69,7 @@ public class AuthService {
     public void logout(String accessToken, UUID userId) {
         jwtProvider.blacklistAccessToken(accessToken);
         jwtProvider.deleteAllRefreshTokens(userId);
+
+        log.info("logout: {}", userId);
     }
 }

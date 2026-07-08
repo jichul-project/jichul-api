@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import work.seoeungi.jichul.common.exception.AppException;
@@ -19,6 +20,7 @@ import work.seoeungi.jichul.domain.subscription.dto.SummaryResponse;
 import work.seoeungi.jichul.domain.user.User;
 import work.seoeungi.jichul.domain.user.UserService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SubscriptionService {
@@ -30,6 +32,8 @@ public class SubscriptionService {
 
     @Transactional(readOnly = true)
     public List<SubscriptionResponse> findAll(UUID userId) {
+        log.info("Subscription findAll: {}", userId);
+
         List<SubscriptionResponse> list = new ArrayList<>();
 
         List<Subscription> subscriptionList = subscriptionRepository.findAllByUserIdWithProvider(userId);
@@ -57,6 +61,8 @@ public class SubscriptionService {
 
     @Transactional(readOnly = true)
     public SummaryResponse summary(UUID userId) {
+        log.info("Subscription summary: {}", userId);
+
         List<Subscription> list = subscriptionRepository.findAllByUserIdWithProvider(userId);
 
         long monthlyCount = list.stream().filter(s -> s.getType() == SubscriptionType.MONTHLY).count();
@@ -113,6 +119,8 @@ public class SubscriptionService {
 
     @Transactional
     public SubscriptionResponse create(UUID userId, SubscriptionRequest request) {
+        log.info("Subscription create: {}", userId);
+
         User user = userService.findById(userId);
         Provider provider = providerService.findOwnedProvider(userId, request.providerId());
 
@@ -131,6 +139,8 @@ public class SubscriptionService {
 
     @Transactional
     public SubscriptionResponse update(UUID userId, UUID subscriptionId, SubscriptionRequest request) {
+        log.info("Subscription update: {}", userId);
+
         Subscription subscription = findOwned(userId, subscriptionId);
         Provider provider = providerService.findOwnedProvider(userId, request.providerId());
 
@@ -148,11 +158,15 @@ public class SubscriptionService {
 
     @Transactional
     public void delete(UUID userId, UUID subscriptionId) {
+        log.info("Subscription delete: {}", userId);
+
         Subscription subscription = findOwned(userId, subscriptionId);
         subscriptionRepository.delete(subscription);
     }
 
     private Subscription findOwned(UUID userId, UUID subscriptionId) {
+        log.info("Subscription findOwned: {}", userId);
+
         return subscriptionRepository.findByIdAndUserId(subscriptionId, userId)
             .orElseThrow(() -> new AppException(ErrorCode.SUBSCRIPTION_NOT_FOUND));
     }

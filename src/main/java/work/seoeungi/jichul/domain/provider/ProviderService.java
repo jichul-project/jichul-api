@@ -3,6 +3,7 @@ package work.seoeungi.jichul.domain.provider;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import work.seoeungi.jichul.domain.subscription.SubscriptionRepository;
 import work.seoeungi.jichul.domain.user.User;
 import work.seoeungi.jichul.domain.user.UserService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProviderService {
@@ -26,6 +28,8 @@ public class ProviderService {
     @Transactional(readOnly = true)
     @Cacheable(value = "provider:all", key = "#userId")
     public List<ProviderResponse> findAll(UUID userId) {
+        log.info("Provider findAll: {}", userId);
+
         return providerRepository.findAllByUserIdOrderByNameAsc(userId)
             .stream()
             .map(ProviderResponse::from)
@@ -35,6 +39,8 @@ public class ProviderService {
     @Transactional
     @CacheEvict(value = "provider:all", key = "#userId")
     public ProviderResponse create(UUID userId, ProviderRequest request) {
+        log.info("Provider create: {}", userId);
+
         User user = userService.findById(userId);
         Provider provider = Provider.builder()
             .user(user)
@@ -46,6 +52,8 @@ public class ProviderService {
     @Transactional
     @CacheEvict(value = "provider:all", key = "#userId")
     public ProviderResponse update(UUID userId, UUID providerId, ProviderRequest request) {
+        log.info("Provider update: {}", userId);
+
         Provider provider = findOwnedProvider(userId, providerId);
         provider.updateName(request.name());
         return ProviderResponse.from(provider);
@@ -54,6 +62,8 @@ public class ProviderService {
     @Transactional
     @CacheEvict(value = "provider:all", key = "#userId")
     public void delete(UUID userId, UUID providerId) {
+        log.info("Provider delete: {}", userId);
+
         Provider provider = findOwnedProvider(userId, providerId);
 
         if (subscriptionRepository.existsByProviderIdAndUserId(providerId, userId)) {
@@ -65,6 +75,8 @@ public class ProviderService {
 
     @Transactional(readOnly = true)
     public Provider findOwnedProvider(UUID userId, UUID providerId) {
+        log.info("Provider findOwnedProvider: {}", userId);
+
         return providerRepository.findByIdAndUserId(providerId, userId)
             .orElseThrow(() -> new AppException(ErrorCode.PROVIDER_NOT_FOUND));
     }
