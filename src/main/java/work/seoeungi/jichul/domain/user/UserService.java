@@ -28,6 +28,7 @@ public class UserService {
             .email(request.email())
             .password(passwordEncoder.encode(request.password()))
             .name(request.name())
+            .allow(false)
             .build();
 
         return UserResponse.from(userRepository.save(user));

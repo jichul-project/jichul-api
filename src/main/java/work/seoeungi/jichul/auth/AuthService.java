@@ -28,6 +28,8 @@ public class AuthService {
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        } else if (!user.isAllow()) {
+            throw new AppException(ErrorCode.USER_NOT_ALLOWED);
         }
 
         String accessToken = jwtProvider.generateAccessToken(user.getId(), user.getEmail());
