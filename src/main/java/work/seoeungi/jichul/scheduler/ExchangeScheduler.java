@@ -28,16 +28,6 @@ public class ExchangeScheduler {
     // 환율 조회
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.HOURS)
     public void getExchangeRate() {
-        record ExchangeRateResponse(
-            String disclaimer,
-            String license,
-            Long timestamp,
-            String base,
-            Map<String, Double> rates
-        ) {
-
-        }
-
         ExchangeRateResponse response = exchangeRateRestClient.get()
             .uri(uriBuilder -> uriBuilder
                 .queryParam("app_id", exchangeApiKey)
@@ -51,10 +41,10 @@ public class ExchangeScheduler {
             .body(ExchangeRateResponse.class);
 
         if (response != null) {
-            log.info("Exchange Rate: {}", response);
+            log.info("Exchange Rate: base={}, rates={}", response.base(), response.rates());
 
-            Double rate = response.rates.get("KRW");
-            Long timestamp = response.timestamp;
+            Double rate = response.rates().get("KRW");
+            Long timestamp = response.timestamp();
 
             Instant instant = Instant.ofEpochSecond(timestamp);
             ZoneId zoneId = ZoneId.of("Asia/Seoul");
@@ -69,4 +59,14 @@ public class ExchangeScheduler {
             redisTemplate.opsForHash().putAll("exchangeRate", exchangeRateMap);
         }
     }
+}
+
+record ExchangeRateResponse(
+    String disclaimer,
+    String license,
+    Long timestamp,
+    String base,
+    Map<String, Double> rates
+) {
+
 }
