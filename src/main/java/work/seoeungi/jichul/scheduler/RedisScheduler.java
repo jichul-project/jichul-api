@@ -18,6 +18,6 @@ public class RedisScheduler {
     // Redis Cloud 삭제 방지
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.DAYS)
     public void ping() {
-        redisTemplate.opsForValue().set("ping", UUID.randomUUID().toString(), 1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set("ping", UUID.randomUUID().toString(), 23, TimeUnit.HOURS);
     }
 }
