@@ -2,7 +2,7 @@
 
 ## 기술 스택
 
-| 항목                | 버전     |
+| 항목              | 버전   |
 |-------------------|--------|
 | Java              | 21     |
 | Spring Boot       | 3.5.11 |
@@ -68,32 +68,32 @@ src/main/java/work/seoeungi/jichul/
 
 ### 인증 (`/api/auth`)
 
-| 메서드  | 경로                   | 인증  | 설명        |
-|------|----------------------|-----|-----------|
-| POST | `/api/auth/register` | 불필요 | 회원가입      |
-| POST | `/api/auth/login`    | 불필요 | 로그인       |
-| POST | `/api/auth/refresh`  | 불필요 | 액세스 토큰 갱신 |
-| POST | `/api/auth/logout`   | 필요  | 로그아웃      |
-| GET  | `/api/auth/me`       | 필요  | 내 정보 조회   |
+| 메서드 | 경로                 | 인증   | 설명             |
+|--------|----------------------|--------|------------------|
+| POST   | `/api/auth/register` | 불필요 | 회원가입         |
+| POST   | `/api/auth/login`    | 불필요 | 로그인           |
+| POST   | `/api/auth/refresh`  | 불필요 | 액세스 토큰 갱신 |
+| POST   | `/api/auth/logout`   | 필요   | 로그아웃         |
+| GET    | `/api/auth/me`       | 필요   | 내 정보 조회     |
 
 ### 제공사 (`/api/providers`)
 
-| 메서드    | 경로                    | 설명        |
-|--------|-----------------------|-----------|
+| 메서드 | 경로                  | 설명             |
+|--------|-----------------------|------------------|
 | GET    | `/api/providers`      | 제공사 목록 조회 |
-| POST   | `/api/providers`      | 제공사 등록    |
-| PUT    | `/api/providers/{id}` | 제공사 수정    |
-| DELETE | `/api/providers/{id}` | 제공사 삭제    |
+| POST   | `/api/providers`      | 제공사 등록      |
+| PUT    | `/api/providers/{id}` | 제공사 수정      |
+| DELETE | `/api/providers/{id}` | 제공사 삭제      |
 
 ### 구독 (`/api/subscriptions`)
 
-| 메서드    | 경로                           | 설명        |
-|--------|------------------------------|-----------|
+| 메서드 | 경로                         | 설명            |
+|--------|------------------------------|-----------------|
 | GET    | `/api/subscriptions`         | 구독 목록 조회  |
 | GET    | `/api/subscriptions/summary` | 월/연 지출 요약 |
-| POST   | `/api/subscriptions`         | 구독 등록     |
-| PUT    | `/api/subscriptions/{id}`    | 구독 수정     |
-| DELETE | `/api/subscriptions/{id}`    | 구독 삭제     |
+| POST   | `/api/subscriptions`         | 구독 등록       |
+| PUT    | `/api/subscriptions/{id}`    | 구독 수정       |
+| DELETE | `/api/subscriptions/{id}`    | 구독 삭제       |
 
 ## 공통 응답 형식
 
